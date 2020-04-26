@@ -121,7 +121,8 @@ namespace TemplateEngine.Docx.Processors
 		        // is a document centric transform, this is written in a non-functional
 		        // style, using tree modification.
 		        var newRows = new List<List<XElement>>();
-		        foreach (var row in table.Rows)
+				bool vMerge = false;
+				foreach (var row in table.Rows)
 		        {
 		            // Clone the prototypeRows into newRowsEntry.
 		            var newRowsEntry = prototypeRows.Select(prototypeRow => new XElement(prototypeRow)).ToList();
@@ -142,7 +143,35 @@ namespace TemplateEngine.Docx.Processors
 
 		                processResult.Merge(contentProcessResult);
 		            }
-
+					// If first row contains more cells, need vMerge
+					if (table.Rows.First() != null && newRowsEntry.Count == 1) {
+						foreach (var extraCell in table.Rows.First().Where(x => !row.Any(y => y.Name == x.Name))) {
+							var newRow = newRowsEntry.First();
+							var cell = newRow.Descendants(W.tc)
+								.FirstOrDefault(x => x.Descendants(W.sdt).Any(s => s.SdtTagName() == extraCell.Name));
+							if (cell != null) {
+								// In previous rows find cell and set vMerge with value "restart"
+								var firstRowEntry = newRows.FirstOrDefault();
+								if (firstRowEntry != null) {
+									var prevCell = firstRowEntry.Descendants(W.tc)
+										.FirstOrDefault(x => x.Descendants(W.sdt).Any(s => s.SdtTagName() == extraCell.Name));
+									var tcPr = prevCell.Descendants(W.tcPr).FirstOrDefault();
+									if (tcPr != null && tcPr.Descendants(W.vMerge).Count() == 0) {
+										tcPr.Add(new XElement(W.vMerge, new XAttribute(W.val, "restart")));
+										vMerge = true;
+									}
+								}
+								// In current cell need set vMerge without value
+								// But after set vMerge flag so that data is not damaged
+								if (vMerge) {
+									var tcPr = cell.Descendants(W.tcPr).FirstOrDefault();
+									if (tcPr != null) {
+										tcPr.Add(new XElement(W.vMerge));
+									}
+								}
+							}
+						}
+					}
 		            // Add the newRow to the list of rows that will be placed in the newly
 		            // generated table.
 		            newRows.Add(newRowsEntry);
