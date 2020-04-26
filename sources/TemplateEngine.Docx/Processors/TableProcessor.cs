@@ -113,7 +113,7 @@ namespace TemplateEngine.Docx.Processors
 		                new CustomContentItemError(table,
 		                    string.Format("doesn't contain rows with cell content {0} {1}",
 		                        invalidFileNames.Count > 1 ? "controls" : "control",
-		                        string.Join(", ", invalidFileNames.Select(fn => string.Format("'{0}'", fn))))));
+		                        string.Join(", ", invalidFileNames.Select(fn => string.Format("'{0}'", fn)).ToArray()))));
 
 		        }
 

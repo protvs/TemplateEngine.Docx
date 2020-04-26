@@ -116,7 +116,7 @@ namespace TemplateEngine.Docx.Processors
                     processResult.AddError(
                         new CustomContentItemError(repeat,
                             String.Format("doesn't contain items with content controls {0}",
-                                string.Join(", ", fieldNames))));
+                                string.Join(", ", fieldNames.ToArray()))));
 
                     return processResult;
                 }

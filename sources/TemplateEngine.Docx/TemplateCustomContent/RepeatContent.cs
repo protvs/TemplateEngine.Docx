@@ -16,7 +16,7 @@ namespace TemplateEngine.Docx
         {
             get
             {
-                return Items?.SelectMany(r => r.FieldNames).Distinct().ToList() ?? new List<string>();
+                return Items != null ? Items.SelectMany(r => r.FieldNames).Distinct().ToList() :  new List<string>();
             }
         }
 

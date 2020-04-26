@@ -10,7 +10,11 @@ namespace TemplateEngine.Docx
 	{
 	    public ICollection<ListItemContent> Items { get; set; }
 
-		public IEnumerable<string> FieldNames => GetFieldNames(Items) ?? new List<string>();
+		public IEnumerable<string> FieldNames {
+			get {
+				return GetFieldNames(Items) ?? new List<string>();
+			}
+		}
 
 	    #region ctors
 

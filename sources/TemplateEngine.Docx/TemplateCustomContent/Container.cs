@@ -2,11 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace TemplateEngine.Docx
 {
-	[JsonObject]
 	public abstract class Container:IEnumerable<IContentItem>, IEquatable<Container>
 	{
 		protected Container()
@@ -37,11 +35,11 @@ namespace TemplateEngine.Docx
 			{
 				var result = new List<IContentItem>();
 
-                if (Repeats != null) result = result.Concat(Repeats).ToList();
-                if (Tables != null) result = result.Concat(Tables).ToList();
-				if (Lists != null) result = result.Concat(Lists).ToList();
-				if (Fields != null) result = result.Concat(Fields).ToList();
-                if (Images != null) result = result.Concat(Images).ToList();
+                if (Repeats != null) result = result.Concat(Repeats.Cast<IContentItem>()).ToList();
+                if (Tables != null) result = result.Concat(Tables.Cast<IContentItem>()).ToList();
+				if (Lists != null) result = result.Concat(Lists.Cast<IContentItem>()).ToList();
+				if (Fields != null) result = result.Concat(Fields.Cast<IContentItem>()).ToList();
+                if (Images != null) result = result.Concat(Images.Cast<IContentItem>()).ToList();
 
                 return result;
 			}
@@ -62,7 +60,7 @@ namespace TemplateEngine.Docx
         {
 	        return All.FirstOrDefault(t => t.Name == name);
         }
-		[JsonIgnore]
+
 		public IEnumerable<string> FieldNames
 		{
 			get

@@ -38,8 +38,8 @@ namespace TemplateEngine.Docx
 
 			ImagesPart = _wordDocument.MainDocumentPart.ImageParts;
 
-			HeaderParts = LoadHeaders(_wordDocument.MainDocumentPart.HeaderParts);
-			FooterParts = LoadFooters(_wordDocument.MainDocumentPart.FooterParts);
+			HeaderParts = LoadHeaders(_wordDocument.MainDocumentPart.HeaderParts.Cast<OpenXmlPart>());
+			FooterParts = LoadFooters(_wordDocument.MainDocumentPart.FooterParts.Cast<OpenXmlPart>());
 
 		}
 		internal WordDocumentContainer(XDocument templateSource, XDocument stylesPart = null, XDocument numberingPart = null, IEnumerable<ImagePart> imagesPart = null)

@@ -7,7 +7,7 @@ namespace TemplateEngine.Docx
 	{
 		private class ListItemInfo
 		{
-			public bool IsListItem { get; }
+			public bool IsListItem { get; set; }
 			public XElement Lvl { get; set; }
 			public int? Start { get; set; }
 			public int? AbstractNumId { get; set; }
@@ -160,9 +160,9 @@ namespace TemplateEngine.Docx
 				var style = styles.Root.Elements(W.style).FirstOrDefault(s => (string)s.Attribute(W.type) == "paragraph" &&
 					(string)s.Attribute(W.styleId) == paragraphStyle);
 
-				var styleNumberingProperties = style?.Elements(W.pPr)
-					.Elements(W.numPr).FirstOrDefault();
-				if (styleNumberingProperties?.Element(W.numId) != null)
+				var styleNumberingProperties = style != null ? style.Elements(W.pPr)
+					.Elements(W.numPr).FirstOrDefault() : null;
+				if (styleNumberingProperties != null && styleNumberingProperties.Element(W.numId) != null)
 				{
 					var numId = (int)styleNumberingProperties.Elements(W.numId)
 						.Attributes(W.val).FirstOrDefault();

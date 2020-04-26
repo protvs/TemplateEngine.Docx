@@ -17,7 +17,7 @@ namespace TemplateEngine.Docx
 			if (_document == null)
 				return null;
 
-			var imagePart = (_document as HeaderPart)?.AddImagePart(ImagePartType.Jpeg);
+			var imagePart = (_document as HeaderPart) != null ? (_document as HeaderPart).AddImagePart(ImagePartType.Jpeg) : null;
 			if (imagePart == null) return string.Empty;
 
 			using (var stream = new MemoryStream(bytes))

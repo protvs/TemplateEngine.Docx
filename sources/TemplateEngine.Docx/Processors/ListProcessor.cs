@@ -259,7 +259,7 @@ namespace TemplateEngine.Docx.Processors
 		            processResult.AddError(
 		                new CustomContentItemError(list,
 		                    string.Format("doesn't contain items with content controls {0}",
-		                        string.Join(", ", fieldNames))));
+		                        string.Join(", ", fieldNames.ToArray()))));
 
 		            return processResult;
 		        }
@@ -300,7 +300,7 @@ namespace TemplateEngine.Docx.Processors
 				{
 					processResult.AddError(new CustomError(
 						string.Format("Prototype for list item '{0}' not found", 
-							string.Join(", ", contentItem.FieldNames))));
+							string.Join(", ", contentItem.FieldNames.ToArray()))));
 
 					continue;
 				}

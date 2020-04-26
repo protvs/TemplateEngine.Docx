@@ -13,7 +13,7 @@ namespace TemplateEngine.Docx
 		{
 			get
 			{
-				return Rows?.SelectMany(r => r.FieldNames).Distinct().ToList() ?? new List<string>();
+				return Rows != null ? Rows.SelectMany(r => r.FieldNames).Distinct().ToList() : new List<string>();
 			}
 		} 
 
