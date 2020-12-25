@@ -29,7 +29,7 @@ namespace TemplateEngine.Docx
             
         }
 
-        public RepeatContent(string name)
+        private RepeatContent(string name)
         {
             Name = name;
         }
